@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 # bin/release <build-dir>
 
-source "./release-nodejs"
-source "./release-ruby"
+./release-nodejs "$1/frontend"
+./release-ruby "$1/backend"
