@@ -85,6 +85,14 @@ log_build_scripts() {
   fi
 }
 
+bower_components() {
+  local build_dir=${1:-}
+
+  echo "Installing bower_components"
+  cd "$build_dir"
+  node_modules/.bin/bower install
+}
+
 yarn_node_modules() {
   local build_dir=${1:-}
   local production=${YARN_PRODUCTION:-false}
@@ -95,7 +103,7 @@ yarn_node_modules() {
 }
 
 yarn_prune_devdependencies() {
-  local build_dir=${1:-} 
+  local build_dir=${1:-}
 
   if [ "$NODE_ENV" == "test" ]; then
     echo "Skipping because NODE_ENV is 'test'"
@@ -106,9 +114,9 @@ yarn_prune_devdependencies() {
   elif [ -n "$YARN_PRODUCTION" ]; then
     echo "Skipping because YARN_PRODUCTION is '$YARN_PRODUCTION'"
     return 0
-  else 
+  else
     local start=$(nowms)
-    cd "$build_dir" 
+    cd "$build_dir"
     yarn install --frozen-lockfile --ignore-engines --ignore-scripts --prefer-offline 2>&1
     mtime "prune.yarn.time" "${start}"
   fi
@@ -154,7 +162,7 @@ npm_rebuild() {
 }
 
 npm_prune_devdependencies() {
-  local build_dir=${1:-} 
+  local build_dir=${1:-}
   local npm_version=$(npm --version)
 
   if [ "$NODE_ENV" == "test" ]; then
@@ -190,7 +198,7 @@ npm_prune_devdependencies() {
     return 0
   else
     local start=$(nowms)
-    cd "$build_dir" 
+    cd "$build_dir"
     npm prune --userconfig $build_dir/.npmrc 2>&1
     mtime "prune.npm.time" "${start}"
   fi

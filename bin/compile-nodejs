@@ -181,6 +181,8 @@ build_dependencies() {
     npm_node_modules "$BUILD_DIR"
   fi
 
+  bower_components
+
   mtime "modules.time.cache.$cache_status" "${start}"
 
   run_if_present 'heroku-postbuild'
