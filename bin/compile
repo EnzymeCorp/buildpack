@@ -2,7 +2,7 @@
 # bin/compile <build-dir> <cache-dir> <env-dir>
 
 mkdir -p "$2/frontend"
-./compile-nodejs "$1/frontend" "$2/frontend" $3
+$(dirname $0)/compile-nodejs "$1/frontend" "$2/frontend" $3
 
 mkdir -p "$2/backend"
-./compile-ruby "$1/backend" "$2/backend" $3
+$(dirname $0)/compile-ruby "$1/backend" "$2/backend" $3
