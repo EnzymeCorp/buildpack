@@ -211,20 +211,9 @@ cache_build() {
 header "Caching build"
 cache_build | output "$LOG_FILE"
 
-prune_devdependencies() {
-  if $YARN; then
-    yarn_prune_devdependencies "$BUILD_DIR"
-  else
-    npm_prune_devdependencies "$BUILD_DIR"
-  fi
-}
-
-header "Pruning devDependencies"
-prune_devdependencies | output "$LOG_FILE"
-
 compile_frontend() {
   EMBER_BUILD_ENV=${EMBER_ENV:-production}
-  $BUILD_DIR/node_modules/ember-cli/bin/ember build --environment $EMBER_BUILD_ENV | sed -u 's/^/       /'
+  $BUILD_DIR/node_modules/.bin/ember build --environment $EMBER_BUILD_ENV | sed -u 's/^/       /'
 }
 
 header "Compiling frontend Ember application"
