@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-# bin/release <build-dir>
-
-$(dirname $0)/release-nodejs "$1/frontend"
-$(dirname $0)/release-ruby "$1/backend"

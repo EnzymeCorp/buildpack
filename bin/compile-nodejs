@@ -222,6 +222,14 @@ prune_devdependencies() {
 header "Pruning devDependencies"
 prune_devdependencies | output "$LOG_FILE"
 
+compile_frontend() {
+  EMBER_BUILD_ENV=${EMBER_ENV:-production}
+  $BUILD_DIR/node_modules/ember-cli/bin/ember build --environment $EMBER_BUILD_ENV | sed -u 's/^/       /'
+}
+
+header "Compiling frontend Ember application"
+compile_frontend | output "$LOG_FILE"
+
 summarize_build() {
   if $NODE_VERBOSE; then
     list_dependencies "$BUILD_DIR"
