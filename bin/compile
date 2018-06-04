@@ -1,8 +1,36 @@
 #!/usr/bin/env bash
 # bin/compile <build-dir> <cache-dir> <env-dir>
 
-mkdir -p "$2/frontend"
-$(dirname $0)/compile-nodejs "$1/frontend" "$2/frontend" $3
+buildpack_bin_dir=$(dirname $0)
+buildpack_dir=$(dirname $buildpack_bin_dir)
+build_dir=$1
+cache_dir=$2
+env_dir=$3
 
-mkdir -p "$2/backend"
-$(dirname $0)/compile-ruby "$1/backend" "$2/backend" $3
+compile() {
+  subdir=$1
+  build_subdir=$build_dir/$subdir
+
+  mkdir -p "$cache_dir/$subdir"
+  $buildpack_bin_dir/compile-$subdir "$build_subdir" "$cache_dir/$subdir" $env_dir
+
+  # check if the buildpack left behind an environment for subsequent ones
+  if [ -e $buildpack_dir/export ]; then
+    source $buildpack_dir/export
+  fi
+
+  # check if the buildpack left any executables behind
+  if [ -d $build_subdir/.heroku ]; then
+    mkdir -p $build_dir/.heroku
+    cp -R $build_subdir/.heroku/* $build_dir/.heroku
+  fi
+
+  # check if the buildpack left any .profile.d scripts behind
+  if [ -d $build_subdir/.profile.d ]; then
+    mkdir -p $build_dir/.profile.d
+    cp -R $build_subdir/.profile.d/* $build_dir/.profile.d
+  fi
+}
+
+compile "frontend"
+compile "backend"
