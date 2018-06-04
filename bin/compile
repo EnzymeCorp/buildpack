@@ -29,7 +29,7 @@ compile() {
   if [ -d $build_subdir/.profile.d ]; then
     mkdir -p $build_dir/.profile.d
     for filepath in $build_subdir/.profile.d/*; do
-      filename=$(basename filepath)
+      filename=$(basename $filepath)
       sed "s|\$HOME|\$HOME/$subdir|" $filepath > $build_dir/.profile.d/$filename
     done
   fi
