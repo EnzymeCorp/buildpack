@@ -29,6 +29,8 @@ compile() {
   if [ -d $build_subdir/.profile.d ]; then
     mkdir -p $build_dir/.profile.d
     for filename in $build_subdir/.profile.d/*; do
+      echo "copying profile script"
+      echo "$build_subdir/.profile.d/$filename  -->  $build_dir/.profile.d/$filename"
       sed "s|\$HOME|\$HOME/$subdir|" $build_subdir/.profile.d/$filename > $build_dir/.profile.d/$filename
     done
   fi
