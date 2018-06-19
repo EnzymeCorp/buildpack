@@ -11,7 +11,7 @@ heroku_buildpack_ruby_install_ruby "$BIN_DIR" "$BUILDPACK_DIR"
 echo "$heroku_buildpack_ruby_dir/bin"
 
 original_dir=$(pwd)
-cd $BUILDPACK_DIR/backend/mobiledoc
+cd $BUILDPACK_DIR/mobiledoc
 npm install
 cd $original_dir
 
